@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "deepsdf"
+		},
+		"ADLSLinkedservice_accountKey": {
+			"value": ""
+		},
+		"samplelinkedservice_connectionString": {
+			"value": ""
+		},
+		"ADLSLinkedservice_properties_typeProperties_url": {
+			"value": "https://deepsstorage18.dfs.core.windows.net/"
+		},
+		"Databricks_formula1_properties_typeProperties_existingClusterId": {
+			"value": "0128-071404-6mvirclp"
+		}
+	}
+}
