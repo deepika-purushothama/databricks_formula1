@@ -1,0 +1,125 @@
+{
+	"name": "Formula1_Project_ADF",
+	"properties": {
+		"activities": [
+			{
+				"name": "check condition",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@or(equals(pipeline().parameters.p_ingestion_method, 'Incremental-load'), equals(pipeline().parameters.p_ingestion_method, 'delta'))\n",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "pyspark and sql",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1_Project/Automation_Code",
+								"baseParameters": {
+									"ingestion_method": {
+										"value": "@pipeline().parameters.p_ingestion_method",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "\"\"",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "Databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "set_variable_filedate",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "p_file_date",
+								"value": {
+									"value": "@not(equals(pipeline().parameters.p_file_date, ''))\n",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "incrementload and delta",
+							"type": "DatabricksNotebook",
+							"dependsOn": [
+								{
+									"activity": "set_variable_filedate",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1_Project/Automation_Code",
+								"baseParameters": {
+									"ingestion_method": {
+										"value": "@pipeline().parameters.p_ingestion_method",
+										"type": "Expression"
+									},
+									"file_date": {
+										"value": "@pipeline().parameters.p_file_date",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "Databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"concurrency": 1,
+		"parameters": {
+			"p_ingestion_method": {
+				"type": "string",
+				"defaultValue": "pyspark"
+			},
+			"p_file_date": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"p_file_date": {
+				"type": "Boolean"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-01-28T11:09:07Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

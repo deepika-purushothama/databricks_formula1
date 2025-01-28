@@ -1,0 +1,14 @@
+{
+	"name": "Databricks_formula1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-1459277835259914.14.azuredatabricks.net",
+			"authentication": "MSI",
+			"workspaceResourceId": "/subscriptions/2dd9cc3c-a183-49d8-a6a4-7910e293d4c0/resourceGroups/deepika-rg/providers/Microsoft.Databricks/workspaces/deepika-ws",
+			"existingClusterId": "0128-071404-6mvirclp"
+		}
+	}
+}

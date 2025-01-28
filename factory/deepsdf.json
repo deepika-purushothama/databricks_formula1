@@ -1,0 +1,9 @@
+{
+	"name": "deepsdf",
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "220bd9ed-b31e-4daa-903c-329c866b152d",
+		"tenantId": "55d7592c-ad51-48cb-b744-5b2ded5014d7"
+	}
+}
